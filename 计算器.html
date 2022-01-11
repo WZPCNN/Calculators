@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>计算器</title>
+</head>
+<style>
+    /* 全局css */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* 公共css */
+    li {
+        list-style: none;
+    }
+
+    /* 超链接css */
+    a {
+        display: block;
+        width: 93px;
+        height: 62px;
+        line-height: 62px;
+        text-align: center;
+        text-decoration: none;
+        color: #000;
+        font-size: 20px;
+        border-radius: 5px;
+        border: 1px solid #eee;
+        background-color: #f9f9f9;
+        margin-bottom: 5px;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    a:hover {
+        background-color: #f6f6f6;
+    }
+
+    li:nth-child(9) a,
+    li:nth-child(10) a,
+    li:nth-child(11) a,
+    li:nth-child(13) a,
+    li:nth-child(14) a,
+    li:nth-child(15) a,
+    li:nth-child(17) a,
+    li:nth-child(18) a,
+    li:nth-child(19) a,
+    li:nth-child(21) a,
+    li:nth-child(22) a,
+    li:nth-child(23) a {
+        background-color: #fff;
+    }
+
+    li:nth-child(9) a:hover,
+    li:nth-child(10) a:hover,
+    li:nth-child(11) a:hover,
+    li:nth-child(13) a:hover,
+    li:nth-child(14) a:hover,
+    li:nth-child(15) a:hover,
+    li:nth-child(17) a:hover,
+    li:nth-child(18) a:hover,
+    li:nth-child(19) a:hover,
+    li:nth-child(21) a:hover,
+    li:nth-child(22) a:hover,
+    li:nth-child(23) a:hover {
+        background-color: #fcfcfc;
+    }
+
+    li:last-child a {
+        background-color: #4c4c4c;
+        color: #fff;
+        border: 0;
+    }
+
+    li:last-child a:hover {
+        background-color: #5d5d5d;
+    }
+
+    /* 按钮css */
+    .b {
+        display: block;
+        width: 200px;
+        height: 50px;
+        background-color: rgba(221, 37, 37, 0.678);
+        color: #fff;
+        font-size: 20px;
+        margin: 50px auto;
+        border: 0;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .b:hover {
+        background-color: rgba(228, 56, 56, 0.678);
+    }
+
+    /* 计算器页面css */
+    .dia {
+        position: fixed;
+        z-index: 9999;
+        display: none;
+        width: 400px;
+        height: 665px;
+        border-radius: 10px;
+        background-color: #f3f3f3;
+        padding: 0 0 5px 0;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .dia .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .dia .header .l {
+        padding-top: 12px;
+        padding-left: 20px;
+        flex: 1;
+        cursor: default;
+    }
+
+    .dia .header .logo {
+        float: left;
+        width: 18px;
+        height: 22px;
+        background: url(./logo.png) no-repeat center;
+        margin-right: 16px;
+        font-size: 15px;
+    }
+
+    .dia .header .x {
+        width: 50px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .dia .header .x:hover {
+        background-color: #c42b1c;
+        color: #fff;
+        border-radius: 0 10px 0 0;
+    }
+
+    .header2 {
+        font-size: 22px;
+        line-height: 22px;
+        padding: 0 15px;
+    }
+
+    .ps {
+        display: flex;
+        justify-content: end;
+        align-items: flex-end;
+        height: 75px;
+        font-size: 16px;
+        color: #606262;
+        margin: 0 15px;
+        overflow: hidden;
+    }
+
+    .p {
+        display: flex;
+        justify-content: end;
+        align-items: flex-end;
+        height: 60px;
+        font-size: 50px;
+        font-weight: 700;
+        margin: 0 15px;
+        overflow: hidden;
+    }
+
+    .zm {
+        display: flex;
+        justify-content: space-around;
+        font-size: 14px;
+        line-height: 38px;
+        height: 38px;
+    }
+
+    .zm span:nth-child(1),
+    .zm span:nth-child(2),
+    .zm span:nth-child(6) {
+        color: #9d9b9b;
+    }
+
+    .jian {
+        margin: 0 5px;
+    }
+
+    .jian ul {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+</style>
+
+<body>
+    <!-- 按钮 -->
+    <input type="button" value="计算器" id="call" class="b">
+    <!-- 计算器主体 -->
+    <div class="dia" id="dia">
+        <div class="header">
+            <!-- 可拖动区域 -->
+            <div class="l" id="move">
+                <div class="logo"></div>
+                计算器
+            </div>
+            <!-- 关闭按钮 -->
+            <div class="x" id="close">×</div>
+        </div>
+        <div class="header2">标准</div>
+        <div class="ps" id="ps"></div>
+        <div class="p" id="p"></div>
+        <div class="zm">
+            <span>MC</span>
+            <span>MR</span>
+            <span>M+</span>
+            <span>M-</span>
+            <span>MS</span>
+            <span>M></span>
+        </div>
+        <div class="jian">
+            <ul>
+                <li><a>%</a></li>
+                <li><a>CE</a></li>
+                <li><a>C</a></li>
+                <li><a onclick="qc()">×</a></li>
+                <li><a>1/x</a></li>
+                <li><a>x²</a></li>
+                <li><a>!x²</a></li>
+                <li><a onclick="jx(name)" name='÷'>÷</a></li>
+                <li><a onclick="jx(name)" name=7>7</a></li>
+                <li><a onclick="jx(name)" name=8>8</a></li>
+                <li><a onclick="jx(name)" name=9>9</a></li>
+                <li><a onclick="jx(name)" name=×>×</a></li>
+                <li><a onclick="jx(name)" name=4>4</a></li>
+                <li><a onclick="jx(name)" name=5>5</a></li>
+                <li><a onclick="jx(name)" name=6>6</a></li>
+                <li><a onclick="jx(name)" name='-'>-</a></li>
+                <li><a onclick="jx(name)" name=1>1</a></li>
+                <li><a onclick="jx(name)" name=2>2</a></li>
+                <li><a onclick="jx(name)" name=3>3</a></li>
+                <li><a onclick="jx(name)" name='+'>+</a></li>
+                <li><a>+/-</a></li>
+                <li><a onclick="jx(name)" name=0>0</a></li>
+                <li><a onclick="jx(name)" name=.>.</a></li>
+                <li><a onclick="eq()">=</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    // 创建一个获取id的函数
+    function g(id) {
+        return document.getElementById(id);
+    }
+    // 点击按钮打开计算器
+    g('call').onclick = function () {
+        g('dia').style.display = 'block';
+        g('call').style.opacity = '0';
+        autoCenter(g('dia'));
+    }
+    // 点击×关闭计算器
+    g('close').onclick = function () {
+        g('dia').style.display = 'none';
+        g('call').style.opacity = '1';
+    }
+    // 拖动时不可选中
+    if (document.attachEvent) {
+        g('dia').attachEvent('onselectstart', function () {
+            return false;
+        })
+    }
+    // 居中代码
+    function autoCenter(el) {
+        var bodyW = document.documentElement.clientWidth;
+        var bodyH = document.documentElement.clientHeight;
+        var elW = el.offsetWidth;
+        var elH = el.offsetHeight;
+        el.style.left = (bodyW - elW) / 2 + 'px';
+        el.style.top = (bodyH - elH) / 2 + 'px';
+    }
+    // 保持居中
+    window.onresize = function () {
+        autoCenter(g('dia'));
+    }
+    // 可拖动区域鼠标按下时
+    var sx = 0, sy = 0;
+    var dx = 0, dy = 0;
+    var isDr = false;
+    g('move').addEventListener('mousedown', function (e) {
+        var e = e || window.event;
+        sx = e.pageX;
+        sy = e.pageY;
+        dx = g('dia').offsetLeft;
+        dy = g('dia').offsetTop;
+        isDr = true;
+    })
+    // 鼠标按下移动时
+    document.onmousemove = function (e) {
+        var e = e || window.event;
+        var x = e.pageX;
+        var y = e.pageY;
+        if (isDr == true) {
+            var moveX = dx + x - sx;
+            var moveY = dy + y - sy;
+            g('dia').style.left = moveX + 'px';
+            g('dia').style.top = moveY + 'px';
+        }
+    }
+    // 鼠标松开时
+    g('move').addEventListener('mouseup', function () {
+        isDr = false;
+    })
+    // 计算器屏幕初始值为0
+    g('p').innerHTML = 0;
+    var v = '';
+    var vv = '';
+    var vx = '';
+    // 获取按键值存入字符串
+    function jx(name) {
+        v += name;
+        vv += name;
+        if (name == '×' || name == '÷' || name == '+' || name == '-') {
+            g('ps').innerHTML = v;
+            vv = '';
+        } else {
+            g('p').innerHTML = vv;
+        }
+        if (name == '×') {
+            name = '*';
+        }
+        if (name == '÷') {
+            name = '/';
+        }
+        vx += name;
+    }
+    // 按下等号时双屏显示并算出结果
+    function eq() {
+        var ss = eval(vx);
+        if (vx == '') {
+            g('p').innerHTML = 0;
+            g('ps').innerHTML = '';
+        } else {
+            g('p').innerHTML = ss;
+            g('ps').innerHTML = v + '=';
+        }
+    }
+    // 清除键功能 清空字符串，屏幕初始为0
+    function qc() {
+        v = '';
+        vv = '';
+        vx = '';
+        g('p').innerHTML = 0;
+        g('ps').innerHTML = '';
+    }
+</script>
+
+</html>

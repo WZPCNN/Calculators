@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>计算器+</title>
+</head>
+<style>
+    /* 全局css */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* 公共css */
+    li {
+        list-style: none;
+    }
+
+    /* 超链接css */
+    a {
+        display: block;
+        width: 93px;
+        height: 62px;
+        line-height: 62px;
+        text-align: center;
+        text-decoration: none;
+        color: #000;
+        font-size: 20px;
+        border-radius: 5px;
+        border: 1px solid #eee;
+        background-color: #f9f9f9;
+        margin-bottom: 5px;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    a:hover {
+        background-color: #f6f6f6;
+    }
+
+    li:nth-child(9) a,
+    li:nth-child(10) a,
+    li:nth-child(11) a,
+    li:nth-child(13) a,
+    li:nth-child(14) a,
+    li:nth-child(15) a,
+    li:nth-child(17) a,
+    li:nth-child(18) a,
+    li:nth-child(19) a,
+    li:nth-child(21) a,
+    li:nth-child(22) a,
+    li:nth-child(23) a {
+        background-color: #fff;
+    }
+
+    li:nth-child(9) a:hover,
+    li:nth-child(10) a:hover,
+    li:nth-child(11) a:hover,
+    li:nth-child(13) a:hover,
+    li:nth-child(14) a:hover,
+    li:nth-child(15) a:hover,
+    li:nth-child(17) a:hover,
+    li:nth-child(18) a:hover,
+    li:nth-child(19) a:hover,
+    li:nth-child(21) a:hover,
+    li:nth-child(22) a:hover,
+    li:nth-child(23) a:hover {
+        background-color: #fcfcfc;
+    }
+
+    li:last-child a {
+        background-color: #4c4c4c;
+        color: #fff;
+        border: 0;
+    }
+
+    li:last-child a:hover {
+        background-color: #5d5d5d;
+    }
+
+    /* 按钮css */
+    .b {
+        display: block;
+        width: 200px;
+        height: 50px;
+        background-color: rgba(221, 37, 37, 0.678);
+        color: #fff;
+        font-size: 20px;
+        margin: 50px auto;
+        border: 0;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .b:hover {
+        background-color: rgba(228, 56, 56, 0.678);
+    }
+
+    /* 计算器页面css */
+    .dia {
+        position: fixed;
+        z-index: 9999;
+        display: none;
+        width: 400px;
+        height: 665px;
+        border-radius: 10px;
+        background-color: #f3f3f3;
+        padding: 0 0 5px 0;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .dia .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .dia .header .l {
+        padding-top: 12px;
+        padding-left: 20px;
+        flex: 1;
+        cursor: default;
+    }
+
+    .dia .header .logo {
+        float: left;
+        width: 18px;
+        height: 22px;
+        background: url(./logo.png) no-repeat center;
+        margin-right: 16px;
+        font-size: 15px;
+    }
+
+    .dia .header .x {
+        width: 50px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .dia .header .x:hover {
+        background-color: #c42b1c;
+        color: #fff;
+        border-radius: 0 10px 0 0;
+    }
+
+    .header2 {
+        font-size: 22px;
+        line-height: 22px;
+        padding: 0 15px;
+    }
+
+    .ps {
+        display: flex;
+        justify-content: end;
+        align-items: flex-end;
+        height: 75px;
+        font-size: 16px;
+        color: #606262;
+        margin: 0 15px;
+        overflow: hidden;
+    }
+
+    .p {
+        display: flex;
+        justify-content: end;
+        align-items: flex-end;
+        height: 60px;
+        font-size: 50px;
+        font-weight: 700;
+        margin: 0 15px;
+        overflow: hidden;
+    }
+
+    .zm {
+        display: flex;
+        justify-content: space-around;
+        font-size: 14px;
+        line-height: 38px;
+        height: 38px;
+    }
+
+    .zm span:nth-child(1),
+    .zm span:nth-child(2),
+    .zm span:nth-child(6) {
+        color: #9d9b9b;
+    }
+
+    .jian {
+        margin: 0 5px;
+    }
+
+    .jian ul {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+</style>
+
+<body>
+    <!-- 按钮 -->
+    <input type="button" value="计算器" id="call" class="b">
+    <!-- 计算器主体 -->
+    <div class="dia" id="dia">
+        <div class="header">
+            <!-- 可拖动区域 -->
+            <div class="l" id="move">
+                <div class="logo"></div>
+                计算器
+            </div>
+            <!-- 关闭按钮 -->
+            <div class="x" id="close">×</div>
+        </div>
+        <div class="header2">标准</div>
+        <div class="ps" id="ps"></div>
+        <div class="p" id="p"></div>
+        <div class="zm">
+            <span>MC</span>
+            <span>MR</span>
+            <span>M+</span>
+            <span>M-</span>
+            <span>MS</span>
+            <span>M></span>
+        </div>
+        <div class="jian">
+            <ul>
+
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var arrj = ['%', 'CE', 'C', '⨴', '1/x', 'x²', '!x²', '÷', '7', '8', '9', '×', '4', '5', '6', '-', '1', '2', '3', '+', '+/-', '0', '.', '='];
+        function g(id) {
+            return document.querySelector(id);
+        }
+        var ul = g('ul');
+        for (var i = 0; i < arrj.length; i++) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.innerHTML = arrj[i];
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+        g('#call').addEventListener('click', function () {
+            g('#dia').style.display = 'block';
+            g('#call').style.opacity = '0';
+            auto(g('#dia'));
+        })
+        g('#close').addEventListener('click', function () {
+            g('#dia').style.display = 'none';
+            g('#call').style.opacity = '1';
+        })
+        if (document.addEventListener) {
+            g('#dia').addEventListener('selectstart', function (e) {
+                e.preventDefault();
+            })
+        }
+        function auto(e) {
+            var bodyW = document.documentElement.clientWidth;
+            var bodyH = document.documentElement.clientHeight;
+            var eW = e.offsetWidth;
+            var eH = e.offsetHeight;
+            e.style.left = (bodyW - eW) / 2 + 'px';
+            e.style.top = (bodyH - eH) / 2 + 'px';
+        }
+        window.onresize = function () {
+            auto(g('#dia'));
+        }
+        var flag = 0;
+        g('#move').addEventListener('mousedown', function (e) {
+            mx = e.pageX;
+            my = e.pageY;
+            dx = g('#dia').offsetLeft;
+            dy = g('#dia').offsetTop;
+            flag = 1;
+        })
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        })
+        document.addEventListener('mousemove', function (e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            if (flag) {
+                var moveX = dx + x - mx;
+                var moveY = dy + y - my;
+                g('#dia').style.left = moveX + 'px';
+                g('#dia').style.top = moveY + 'px';
+            }
+        })
+        g('#move').addEventListener('mouseup', function () {
+            flag = 0;
+        })
+
+        var lis = document.querySelectorAll('.jian li');
+        g('#p').innerHTML = 0;
+        var v = [];
+        var vv = [];
+        var vx = [];
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].addEventListener('click', function (e) {
+                if (this.innerText != '=') {
+                    v.push(this.innerText);
+                    vv.push(this.innerText);
+                }
+                var names = this.innerText;
+                if (this.innerText == '×' || this.innerText == '÷' || this.innerText == '+' || this.innerText == '-') {
+                    g('#ps').innerHTML = v.join('');
+                    vv = [];
+                } else {
+                    g('#p').innerHTML = vv.join('');
+                }
+                if (this.innerText == '×') {
+                    names = '*';
+                }
+                if (this.innerText == '÷') {
+                    names = '/';
+                }
+                if (this.innerText == '=') {
+                    var ss = eval(vx.join(''));
+                    if (vx.join('') == '') {
+                        g('#p').innerText = 0;
+                        g('#ps').innerText = '';
+                    } else {
+                        g('#p').innerHTML = ss;
+                        g('#ps').innerHTML = v.join('') + '=';
+                    }
+                } else if (this.innerText == '⨴') {
+                    v = [];
+                    vv = [];
+                    vx = [];
+                    g('#p').innerHTML = 0;
+                    g('#ps').innerHTML = '';
+                } else {
+                    vx.push(names);
+                }
+
+            })
+        }
+    })
+</script>
+
+</html>
